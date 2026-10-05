@@ -1,3 +1,5 @@
+<img width="1366" height="768" alt="Screenshot 2026-10-05 185546" src="https://github.com/user-attachments/assets/ed77ed56-5d5b-42fb-8369-d922d5b123d7" />
+<img width="1366" height="768" alt="Screenshot 2026-10-05 185717" src="https://github.com/user-attachments/assets/5d24ebb6-1e41-4d7a-ac8a-f43b5816bd4e" />
 # Port-forward-k8s
 
 # Kubernetes Pod IP Load Balancing with Nginx & NodePort
