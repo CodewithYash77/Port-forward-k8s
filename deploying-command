@@ -1,0 +1,56 @@
+Step 3: Deploy to Kubernetes Cluster
+Apply the manifests using kubectl:
+
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+🧪 Testing Load Balancing
+Option 1: Terminal (curl)
+Run the following command multiple times in your terminal to observe the shifting Pod IPs:
+
+curl http://localhost:30080
+
+Expected Output:
+<h1>Container / Pod IP: 10.244.0.5</h1>
+  ---
+
+### 2. `commands.sh` (कमांड्स ऑटोमेट करण्यासाठी)
+
+ही फाईल **`commands.sh`** नावाने सेव्ह करून थेट टर्मिनलवर `bash commands.sh` मारून सगळा सेटअप चालवू शकता.
+
+```bash
+#!/bin/bash
+
+echo "========================================="
+echo "   Kubernetes Deployment & Service Setup "
+echo "========================================="
+
+# 1. Apply Deployment Manifest
+echo "[1/4] Deploying 4 Nginx Pods..."
+kubectl apply -f deployment.yaml
+
+# 2. Apply Service Manifest
+echo "[2/4] Exposing Service via NodePort 30080..."
+kubectl apply -f service.yaml
+
+# 3. Wait for Pods to be Ready
+echo "[3/4] Waiting for pods to enter Running state..."
+sleep 5
+kubectl get pods -o wide
+
+# 4. Verify NodePort Service
+echo "[4/4] Fetching Service Details..."
+kubectl get svc hostname-service
+
+echo ""
+echo "========================================="
+echo "        Testing Load Balancing           "
+echo "========================================="
+for i in {1..4}
+do
+   echo -n "Request $i: "
+   curl -s http://localhost:30080
+done
+
+echo ""
+echo "Done! Refreshing will change the Pod IP dynamically."
