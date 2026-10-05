@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hostname-deployment
+  labels:
+    app: hostname-app
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: hostname-app
+  template:
+    metadata:
+      labels:
+        app: hostname-app
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:alpine
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            echo "<h1>Container / Pod IP: ${MY_POD_IP}</h1>" > /usr/share/nginx/html/index.html
+            nginx -g 'daemon off;'
+        env:
+          - name: MY_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        ports:
+        - containerPort: 80
