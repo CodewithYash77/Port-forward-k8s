@@ -1,0 +1,28 @@
+🚀 Execution Steps
+Step 1: Clone Repository & Update Username
+Update <your-dockerhub-username> in deployment.yaml and commands.sh with your actual Docker Hub username.
+
+Step 2: Build & Push Docker Image
+Bash
+docker login
+docker build -t <your-dockerhub-username>/nginx-pod-ip:v1 .
+docker push <your-dockerhub-username>/nginx-pod-ip:v1
+Step 3: Deploy to Kubernetes
+Bash
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+🧪 Testing Load Balancing
+Execute curl multiple times to verify traffic distribution across different Pod IPs:
+
+Bash
+curl http://localhost:30080
+Output:
+
+HTML
+<h1>Container / Pod IP: 10.244.0.5</h1>
+(Subsequent requests will cycle through 10.244.0.6, 10.244.0.7, etc.)
+
+🧹 Cleanup
+Bash
+kubectl delete -f deployment.yaml
+kubectl delete -f service.yaml
